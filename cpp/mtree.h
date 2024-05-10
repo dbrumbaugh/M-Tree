@@ -589,6 +589,10 @@ public:
 		};
 	}
 
+    size_t size() const {
+        return root->size();
+    }
+
 protected:
 
 	void _check() const {
@@ -642,6 +646,11 @@ public:
 			return 1;
 		}
 
+        virtual size_t size() const {
+	    //printf("I am here...%zu\n", sizeof(Data) + 2 * sizeof(double));
+            return sizeof(Data) + 2 * sizeof(double);
+        }
+
 	private:
 		void _checkRadius() const {
 			assert(radius >= 0);
@@ -669,6 +678,17 @@ private:
 			doAddData(data, distance, mtree);
 			checkMaxCapacity(mtree);
 		}
+
+        virtual size_t size() const {
+            auto fanout = DEFAULT_MIN_NODE_CAPACITY * 2 - 1;
+            //auto fanout = children.size();
+            auto res = sizeof(IndexItem) + fanout * (sizeof(Data) + sizeof(IndexItem*));
+            for (auto& child: children) {
+                res += child.second->size();
+            }
+	    //printf("I am a node: %zu %zu\n", children.size(), res);
+            return res;
+        }
 
 #ifndef NDEBUG
 		size_t _check(const mtree* mtree) const {
@@ -1149,6 +1169,10 @@ private:
 	class Entry : public IndexItem {
 	public:
 		Entry(const Data& data) : IndexItem(data) { }
+
+        virtual size_t size() const {
+            return 0;
+        }
 	};
 };
 
