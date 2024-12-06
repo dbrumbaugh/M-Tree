@@ -55,7 +55,7 @@ struct random_promotion {
 	template <typename Data, typename DistanceFunction>
 	std::pair<Data, Data> operator()(const std::set<Data>& data_objects, DistanceFunction& distance_function) const {
 		std::vector<Data> promoted;
-		random_sample_n(data_objects.begin(), data_objects.end(), inserter(promoted, promoted.begin()), 2);
+		__gnu_cxx::random_sample_n(data_objects.begin(), data_objects.end(), inserter(promoted, promoted.begin()), 2);
 		assert(promoted.size() == 2);
 		return {promoted[0], promoted[1]};
 	}

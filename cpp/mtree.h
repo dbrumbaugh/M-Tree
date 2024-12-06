@@ -697,7 +697,7 @@ private:
 			_checkMaxCapacity(mtree);
 
 			bool   childHeightKnown = false;
-			size_t childHeight;
+			size_t childHeight = 0;
 			for(typename ChildrenMap::const_iterator i = children.begin(); i != children.end(); ++i) {
 #ifndef NDEBUG
 				const Data& data = i->first;
@@ -1062,7 +1062,7 @@ private:
 			} else {
 				// Donate
 				// Look for the nearest grandchild
-				IndexItem* nearestGrandchild;
+				IndexItem* nearestGrandchild = nullptr;
 				double nearestGrandchildDistance = std::numeric_limits<double>::infinity();
 				for(typename Node::ChildrenMap::iterator i = nearestDonor->children.begin(); i != nearestDonor->children.end(); ++i) {
 					IndexItem* grandchild = i->second;
